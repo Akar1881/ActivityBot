@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= t('dashboard.title') %> - <%= siteName %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body class="dark-theme">
+    <%- include('partials/header') %>
+    
+    <main class="dashboard">
+        <h1>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dashboard-icon">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <%= t('dashboard.selectServer') %>
+        </h1>
+        <div class="servers-grid">
+            <% guilds.forEach(guild => { %>
+                <div class="server-card">
+                    <% if (guild.icon) { %>
+                        <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" alt="<%= guild.name %>">
+                    <% } else { %>
+                        <div class="server-icon-placeholder"><%= guild.name.charAt(0) %></div>
+                    <% } %>
+                    <h3><%= guild.name %></h3>
+                    <a href="/dashboard/guild/<%= guild.id %>" class="configure-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="configure-icon">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                        <%= t('dashboard.configure') %>
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/main.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/animations.js"></script>
+</body>
+</html>

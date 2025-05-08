@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= t('guildSettings.title') %> - <%= siteName %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/guild-settings.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body class="dark-theme">
+    <%- include('partials/header') %>
+    
+    <main class="guild-settings">
+        <div class="settings-container">
+            <div class="settings-header">
+                <h1><%= settings?.guild_name || t('guildSettings.title') %></h1>
+                <a href="/dashboard" class="back-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="back-icon">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <%= t('guildSettings.backToServers') %>
+                </a>
+            </div>
+
+            <form id="settingsForm" class="settings-form">
+                <input type="hidden" name="guildId" value="<%= guildId %>">
+                
+                <!-- Category Navigation -->
+                <div class="category-navigation">
+                    <button type="button" class="category-button active" data-category="leveling">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="category-icon">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            <line x1="9" y1="10" x2="15" y2="10"></line>
+                        </svg>
+                        <%= t('guildSettings.leveling') || 'Leveling' %>
+                    </button>
+                    <button type="button" class="category-button" data-category="invites">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="category-icon">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <%= t('guildSettings.inviteTracker') || 'Invite Tracker' %>
+                    </button>
+                    <button type="button" class="category-button danger-nav-button" data-category="danger-zone">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="category-icon danger-icon">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <%= t('guildSettings.dangerZone') || 'Danger Zone' %>
+                    </button>
+                </div>
+                
+                <!-- Leveling Category -->
+                <div class="settings-category active" data-category="leveling">
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                <line x1="9" y1="10" x2="15" y2="10"></line>
+                            </svg>
+                            <%= t('guildSettings.chatXpSettings') %>
+                        </h2>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="minXpPerMessage"><%= t('guildSettings.minXpPerMessage') %></label>
+                                <input type="number" id="minXpPerMessage" name="min_xp_per_message" 
+                                    value="<%= settings?.min_xp_per_message || 15 %>" min="1" max="100">
+                                <small class="help-text"><%= t('guildSettings.minXpHelp') %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="maxXpPerMessage"><%= t('guildSettings.maxXpPerMessage') %></label>
+                                <input type="number" id="maxXpPerMessage" name="max_xp_per_message" 
+                                    value="<%= settings?.max_xp_per_message || 25 %>" min="1" max="100">
+                                <small class="help-text"><%= t('guildSettings.maxXpHelp') %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="messageCooldown"><%= t('guildSettings.messageCooldown') %></label>
+                                <input type="number" id="messageCooldown" name="message_cooldown" 
+                                    value="<%= settings?.message_cooldown || 60 %>" min="0" max="3600">
+                                <small class="help-text"><%= t('guildSettings.messageCooldownHelp') %></small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                            <%= t('guildSettings.voiceXpSettings') %>
+                        </h2>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="minXpPerVoiceMinute"><%= t('guildSettings.minXpPerVoiceMinute') %></label>
+                                <input type="number" id="minXpPerVoiceMinute" name="min_xp_per_voice_minute" 
+                                    value="<%= settings?.min_xp_per_voice_minute || 10 %>" min="1" max="100">
+                                <small class="help-text"><%= t('guildSettings.minVoiceXpHelp') %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="maxXpPerVoiceMinute"><%= t('guildSettings.maxXpPerVoiceMinute') %></label>
+                                <input type="number" id="maxXpPerVoiceMinute" name="max_xp_per_voice_minute" 
+                                    value="<%= settings?.max_xp_per_voice_minute || 20 %>" min="1" max="100">
+                                <small class="help-text"><%= t('guildSettings.maxVoiceXpHelp') %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="minVoiceMinutesToEarn"><%= t('guildSettings.minVoiceMinutesToEarn') %></label>
+                                <input type="number" id="minVoiceMinutesToEarn" name="min_voice_minutes_to_earn" 
+                                    value="<%= settings?.min_voice_minutes_to_earn || 1 %>" min="1" max="60">
+                                <small class="help-text"><%= t('guildSettings.minVoiceMinutesHelp') %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="maxVoiceMinutesToEarn"><%= t('guildSettings.maxVoiceMinutesToEarn') %></label>
+                                <input type="number" id="maxVoiceMinutesToEarn" name="max_voice_minutes_to_earn" 
+                                    value="<%= settings?.max_voice_minutes_to_earn || 30 %>" min="1" max="120">
+                                <small class="help-text"><%= t('guildSettings.maxVoiceMinutesHelp') %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="voiceCooldown"><%= t('guildSettings.voiceCooldown') %></label>
+                                <input type="number" id="voiceCooldown" name="voice_cooldown" 
+                                    value="<%= settings?.voice_cooldown || 300 %>" min="0" max="3600">
+                                <small class="help-text"><%= t('guildSettings.voiceCooldownHelp') %></small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            <%= t('guildSettings.generalSettings') %>
+                        </h2>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="xpMultiplier"><%= t('guildSettings.xpMultiplier') %></label>
+                                <input type="number" id="xpMultiplier" name="xp_multiplier" step="0.1"
+                                    value="<%= settings?.xp_multiplier || 1.0 %>" min="0.1" max="5">
+                                <small class="help-text"><%= t('guildSettings.xpMultiplierHelp') %></small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3z"></path>
+                            </svg>
+                            <%= t('guildSettings.announcementSettings') %>
+                        </h2>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="enableAnnouncements"><%= t('guildSettings.enableAnnouncements') %></label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="enableAnnouncements" name="enable_announcements" 
+                                        <%= settings?.enable_announcements ? 'checked' : '' %>>
+                                    <label for="enableAnnouncements" class="toggle-label"></label>
+                                </div>
+                                <small class="help-text"><%= t('guildSettings.enableAnnouncementsHelp') %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="announcementChannel"><%= t('guildSettings.announcementChannel') %></label>
+                                <select id="announcementChannel" name="announcement_channel" class="form-select">
+                                    <option value=""><%= t('guildSettings.selectChannel') %></option>
+                                    <% channels.forEach(channel => { %>
+                                        <option value="<%= channel.id %>" 
+                                            <%= settings?.announcement_channel === channel.id ? 'selected' : '' %>>
+                                            #<%= channel.name %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <small class="help-text"><%= t('guildSettings.announcementChannelHelp') %></small>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="announcementMessage"><%= t('guildSettings.announcementMessage') %></label>
+                                <input type="text" id="announcementMessage" name="announcement_message" 
+                                    value="<%= settings?.announcement_message || '{user} reached level {currentlevel} in {type}!' %>"
+                                    placeholder="Use {user}, {currentlevel}, and {type} as placeholders">
+                                <small class="help-text"><%= t('guildSettings.announcementMessageHelp') %></small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                            <%= t('guildSettings.roleRewards') %>
+                        </h2>
+                        <div class="role-rewards-list">
+                            <% if (roleRewards && roleRewards.length > 0) { %>
+                                <% roleRewards.forEach(reward => { %>
+                                    <div class="role-reward-item">
+                                        <div class="role-info">
+                                            <span class="role-name"><%= reward.role_name || `Level ${reward.level} ${reward.type} Reward` %></span>
+                                            <span class="role-level">Level <%= reward.level %></span>
+                                            <span class="role-type"><%= reward.type %></span>
+                                        </div>
+                                        <button type="button" class="delete-role" 
+                                            data-role-id="<%= reward.role_id %>" 
+                                            data-role-name="<%= reward.role_name || `Level ${reward.level} ${reward.type} Reward` %>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="delete-icon">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                            <%= t('guildSettings.delete') %>
+                                        </button>
+                                    </div>
+                                <% }); %>
+                            <% } else { %>
+                                <p class="no-rewards"><%= t('guildSettings.noRoleRewards') %></p>
+                            <% } %>
+                        </div>
+                        <button type="button" id="addRoleReward" class="add-role-button" onclick="event.preventDefault();">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="add-icon">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            <%= t('guildSettings.addRoleReward') %>
+                        </button>
+                    </section>
+                    
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <%= t('guildSettings.excludedChannelsRoles') %>
+                        </h2>
+                        
+                        <div class="settings-subsection">
+                            <h3><%= t('guildSettings.noXpChannels') %></h3>
+                            <p class="help-text"><%= t('guildSettings.noXpChannelsHelp') %></p>
+                            
+                            <div class="excluded-items-list" id="excludedChannelsList">
+                                <% if (excludedChannels && excludedChannels.length > 0) { %>
+                                    <% excludedChannels.forEach(channel => { %>
+                                        <div class="excluded-item">
+                                            <div class="role-info">
+                                                <span class="excluded-name">
+                                                    <% if (channel.type === 'voice') { %>
+                                                        🔊 <%= channel.name || channel.channel_id %>
+                                                    <% } else { %>
+                                                        # <%= channel.name || channel.channel_id %>
+                                                    <% } %>
+                                                </span>
+                                                <span class="role-type">No XP</span>
+                                            </div>
+                                            <button type="button" class="remove-excluded" 
+                                                data-type="channel"
+                                                data-id="<%= channel.channel_id %>"
+                                                data-name="<%= channel.name || channel.channel_id %>">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="delete-icon">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                                <%= t('guildSettings.remove') %>
+                                            </button>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <p class="no-items"><%= t('guildSettings.noExcludedChannels') %></p>
+                                <% } %>
+                            </div>
+                            
+                            <button type="button" id="addExcludedChannel" class="add-excluded-button" onclick="event.preventDefault();">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="add-icon">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                <%= t('guildSettings.addExcludedChannel') %>
+                            </button>
+                        </div>
+                        
+                        <div class="settings-subsection">
+                            <h3><%= t('guildSettings.noXpRoles') %></h3>
+                            <p class="help-text"><%= t('guildSettings.noXpRolesHelp') %></p>
+                            
+                            <div class="excluded-items-list" id="excludedRolesList">
+                                <% if (excludedRoles && excludedRoles.length > 0) { %>
+                                    <% excludedRoles.forEach(role => { %>
+                                        <div class="excluded-item">
+                                            <div class="role-info">
+                                                <span class="excluded-name" style="color: <%= role.color || '#99AAB5' %>">
+                                                    <%= role.name || role.role_id %>
+                                                </span>
+                                                <span class="role-type">No XP</span>
+                                            </div>
+                                            <button type="button" class="remove-excluded" 
+                                                data-type="role"
+                                                data-id="<%= role.role_id %>"
+                                                data-name="<%= role.name || role.role_id %>">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="delete-icon">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                                <%= t('guildSettings.remove') %>
+                                            </button>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <p class="no-items"><%= t('guildSettings.noExcludedRoles') %></p>
+                                <% } %>
+                            </div>
+                            
+                            <button type="button" id="addExcludedRole" class="add-excluded-button" onclick="event.preventDefault();">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="add-icon">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                </svg>
+                                <%= t('guildSettings.addExcludedRole') %>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Invite Tracker Category -->
+                <div class="settings-category" data-category="invites">
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <%= t('guildSettings.inviteSettings') || 'Invite Settings' %>
+                        </h2>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="countFakeInvites"><%= t('guildSettings.countFakeInvites') || 'Count Fake Invites' %></label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="countFakeInvites" name="count_fake_invites" 
+                                        <%= settings?.count_fake_invites ? 'checked' : '' %>>
+                                    <label for="countFakeInvites" class="toggle-label"></label>
+                                </div>
+                                <small class="help-text"><%= t('guildSettings.countFakeInvitesHelp') || 'Count invites from accounts less than 30 days old' %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="countLeftInvites"><%= t('guildSettings.countLeftInvites') || 'Count Left Invites' %></label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="countLeftInvites" name="count_left_invites" 
+                                        <%= settings?.count_left_invites ? 'checked' : '' %>>
+                                    <label for="countLeftInvites" class="toggle-label"></label>
+                                </div>
+                                <small class="help-text"><%= t('guildSettings.countLeftInvitesHelp') || 'Count invites even if the user leaves the server' %></small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="settings-section">
+                        <h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3z"></path>
+                            </svg>
+                            <%= t('guildSettings.inviteWelcomeSettings') || 'Welcome Message Settings' %>
+                        </h2>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="enableInviteWelcome"><%= t('guildSettings.enableInviteWelcome') || 'Enable Welcome Messages' %></label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="enableInviteWelcome" name="enable_invite_welcome" 
+                                        <%= settings?.enable_invite_welcome ? 'checked' : '' %>>
+                                    <label for="enableInviteWelcome" class="toggle-label"></label>
+                                </div>
+                                <small class="help-text"><%= t('guildSettings.enableInviteWelcomeHelp') || 'Send welcome messages when users join via invites' %></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="inviteWelcomeChannel"><%= t('guildSettings.inviteWelcomeChannel') || 'Welcome Channel' %></label>
+                                <select id="inviteWelcomeChannel" name="invite_welcome_channel" class="form-select">
+                                    <option value=""><%= t('guildSettings.selectChannel') %></option>
+                                    <% channels.forEach(channel => { %>
+                                        <option value="<%= channel.id %>" 
+                                            <%= settings?.invite_welcome_channel === channel.id ? 'selected' : '' %>>
+                                            #<%= channel.name %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <small class="help-text"><%= t('guildSettings.inviteWelcomeChannelHelp') || 'Channel where welcome messages are sent' %></small>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="inviteWelcomeMessage"><%= t('guildSettings.inviteWelcomeMessage') || 'Welcome Message' %></label>
+                                <input type="text" id="inviteWelcomeMessage" name="invite_welcome_message" 
+                                    value="<%= settings?.invite_welcome_message || 'Hi, {user} Welcome to our server! You were invited by {inviter} who now has {invites} invites.' %>"
+                                    placeholder="Use {user}, {inviter}, and {invites} as placeholders">
+                                <small class="help-text"><%= t('guildSettings.inviteWelcomeMessageHelp') || 'Customize the welcome message ({user}, {inviter}, {invites})' %></small>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+                
+                <!-- Danger Zone Category -->
+                <div class="settings-category" data-category="danger-zone">
+                    <div class="danger-zone-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon danger-icon">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <h2><%= t('guildSettings.dangerZoneWarning') || 'Warning: These actions cannot be undone!' %></h2>
+                    </div>
+                    
+                    <!-- Leveling Danger Zone -->
+                    <section class="settings-section danger-zone">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                <line x1="9" y1="10" x2="15" y2="10"></line>
+                            </svg>
+                            <h2><%= t('guildSettings.levelingDangerZone') || 'Leveling Danger Zone' %></h2>
+                        </div>
+                        
+                        <div class="settings-subsection">
+                            <div class="danger-actions">
+                                <div class="danger-action">
+                                    <div class="danger-info">
+                                        <h3><%= t('guildSettings.resetUserLevels') || 'Reset All User Levels' %></h3>
+                                        <p><%= t('guildSettings.resetUserLevelsDesc') || 'Delete all user XP and level data for this server. This action cannot be undone!' %></p>
+                                    </div>
+                                    <button type="button" id="resetLevelsBtn" class="danger-button">
+                                        <%= t('guildSettings.resetLevels') || 'Reset Levels' %>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Invite Tracker Danger Zone -->
+                    <section class="settings-section danger-zone">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <h2><%= t('guildSettings.inviteDangerZone') || 'Invite Tracker Danger Zone' %></h2>
+                        </div>
+                        
+                        <div class="settings-subsection">
+                            <div class="danger-actions">
+                                <div class="danger-action">
+                                    <div class="danger-info">
+                                        <h3><%= t('guildSettings.resetInvites') || 'Reset All Invites' %></h3>
+                                        <p><%= t('guildSettings.resetInvitesDesc') || 'Delete all invite tracking data for this server. This action cannot be undone!' %></p>
+                                    </div>
+                                    <button type="button" id="resetInvitesBtn" class="danger-button">
+                                        <%= t('guildSettings.resetInvitesButton') || 'Reset All Invites' %>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- All Bot Data Danger Zone -->
+                    <section class="settings-section danger-zone extreme">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="section-icon">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                            </svg>
+                            <h2><%= t('guildSettings.allDataDangerZone') || 'All Bot Data Danger Zone' %></h2>
+                        </div>
+                        
+                        <div class="settings-subsection">
+                            <div class="danger-actions">
+                                <div class="danger-action extreme">
+                                    <div class="danger-info">
+                                        <h3><%= t('guildSettings.resetEverything') || 'Reset All Bot Data' %></h3>
+                                        <p><%= t('guildSettings.resetEverythingDesc') || 'Delete ALL bot data for this server and restore default settings. This includes levels, invites, and all configurations. This action cannot be undone!' %></p>
+                                    </div>
+                                    <button type="button" id="resetAllBtn" class="danger-button extreme">
+                                        <%= t('guildSettings.resetAllData') || 'Reset All Data' %>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="save-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="save-icon">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        <%= t('guildSettings.saveChanges') %>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script>
+        // Make server roles and channels available to the client-side JavaScript
+        window.serverRoles = <%- JSON.stringify(roles || []) %>;
+        window.serverChannels = <%- JSON.stringify(channels || []) %>;
+    </script>
+    <script src="/js/main.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/guild-settings.js"></script>
+</body>
+</html>

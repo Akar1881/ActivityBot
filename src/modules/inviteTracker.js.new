@@ -1,0 +1,86 @@
+/**
+ * Compatibility module for inviteTracker
+ * 
+ * This file provides backward compatibility for code that imports the old InviteTracker class
+ * It re-exports the new InviteTracker class from inviteTrackerUnified.js
+ */
+
+// Import the new unified InviteTracker class
+const UnifiedInviteTracker = require('./inviteTrackerUnified');
+const logger = require('../utils/logger');
+const { Collection } = require('discord.js');
+
+// Log that we're using the compatibility layer
+logger.info('Using inviteTracker compatibility layer - redirecting to inviteTrackerUnified');
+
+/**
+ * Invite Tracker module for tracking invites in guilds
+ * This is a compatibility wrapper around the new InviteTracker class
+ */
+class InviteTracker {
+    /**
+     * @param {Client} client - Discord.js client
+     */
+    constructor(client) {
+        logger.info('Creating InviteTracker instance via compatibility layer');
+        
+        // Create an instance of the new tracker
+        this.unified = new UnifiedInviteTracker(client);
+        
+        // Store client reference
+        this.client = client;
+    }
+    
+    /**
+     * Get guild settings
+     * @param {string} guildId - Guild ID
+     * @returns {Object} Guild settings
+     */
+    async getGuildSettings(guildId) {
+        return this.unified.getGuildSettings(guildId);
+    }
+    
+    /**
+     * Get invite counts for a user
+     * @param {string} guildId - Guild ID
+     * @param {string} userId - User ID
+     * @returns {Object} Invite counts
+     */
+    async getInviteCounts(guildId, userId) {
+        return this.unified.getInviteCounts(guildId, userId);
+    }
+    
+    /**
+     * Update guild settings
+     * @param {string} guildId - Guild ID
+     * @param {Object} settings - New settings
+     * @returns {Object} Updated settings
+     */
+    async updateGuildSettings(guildId, settings) {
+        return this.unified.updateGuildSettings(guildId, settings);
+    }
+    
+    /**
+     * Reset invites for a user
+     * @param {string} guildId - Guild ID
+     * @param {string} userId - User ID
+     * @returns {boolean} Success
+     */
+    async resetInvites(guildId, userId) {
+        return this.unified.resetInvites(guildId, userId);
+    }
+    
+    /**
+     * Add bonus invites to a user
+     * @param {string} guildId - Guild ID
+     * @param {string} userId - User ID
+     * @param {number} amount - Amount to add
+     * @returns {Object} Updated invite counts
+     */
+    async addBonusInvites(guildId, userId, amount) {
+        return this.unified.addBonusInvites(guildId, userId, amount);
+    }
+}
+
+// Export the compatibility class
+module.exports = InviteTracker;

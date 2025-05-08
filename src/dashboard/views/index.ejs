@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= t('home.title') %></title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body class="dark-theme">
+    <%- include('partials/header') %>
+    
+    <main class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="/logo" alt="<%= siteName %>" class="main-logo">
+            </div>
+            <h1><%= t('home.title') %></h1>
+            <p><%= t('home.description') %></p>
+            
+            <div class="action-buttons">
+                <a href="https://discord.com/api/oauth2/authorize?client_id=<%= process.env.CLIENT_ID %>&permissions=8&scope=bot%20applications.commands" class="action-button discord-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" class="discord-icon"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z" fill="currentColor"/></svg>
+                    <%= t('home.addToDiscord') %>
+                </a>
+                <a href="/dashboard" class="action-button dashboard-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="dashboard-icon"><path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z" fill="currentColor"/></svg>
+                    <%= t('header.dashboard') %>
+                </a>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <div class="stat-number" data-value="<%= stats.guilds %>">0</div>
+                    <div class="stat-label"><%= t('home.activeServers') %></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-number" data-value="<%= stats.members %>">0</div>
+                    <div class="stat-label"><%= t('home.totalMembers') %></div>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            <line x1="9" y1="10" x2="15" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title"><%= t('home.chatLeveling') %></h3>
+                    <p class="feature-description"><%= t('home.chatLevelingDesc') %></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title"><%= t('home.voiceActivity') %></h3>
+                    <p class="feature-description"><%= t('home.voiceActivityDesc') %></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="7"></circle>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title"><%= t('home.roleRewards') %></h3>
+                    <p class="feature-description"><%= t('home.roleRewardsDesc') %></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                            <line x1="3" y1="20" x2="21" y2="20"></line>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title"><%= t('home.leaderboards') %></h3>
+                    <p class="feature-description"><%= t('home.leaderboardsDesc') %></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title"><%= t('home.customSettings') %></h3>
+                    <p class="feature-description"><%= t('home.customSettingsDesc') %></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title"><%= t('home.rankCards') %></h3>
+                    <p class="feature-description"><%= t('home.rankCardsDesc') %></p>
+                </div>
+            </div>
+            
+            <div class="top-guilds-section">
+                <h2 class="section-title"><%= t('home.topGuilds') %></h2>
+                <p class="section-description"><%= t('home.topGuildsDesc') %></p>
+                
+                <div class="podium-container">
+                    <div class="podium-wrapper">
+                        <!-- Second Place -->
+                        <div class="podium-place second-place">
+                            <div class="medal-icon">
+                                <div class="place-badge">2</div>
+                            </div>
+                            <div class="guild-avatar">
+                                <img src="<%= topGuilds[1]?.iconURL || '/img/default-guild.png' %>" alt="Second Place Guild">
+                            </div>
+                            <div class="podium-block">
+                                <div class="guild-name"><%= topGuilds[1]?.name || 'Loading...' %></div>
+                                <div class="guild-xp"><%= topGuilds[1]?.totalXP?.toLocaleString() || '0' %> XP</div>
+                            </div>
+                        </div>
+                        
+                        <!-- First Place -->
+                        <div class="podium-place first-place">
+                            <div class="medal-icon">
+                                <div class="place-badge">1</div>
+                            </div>
+                            <div class="crown">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path>
+                                </svg>
+                            </div>
+                            <div class="guild-avatar">
+                                <img src="<%= topGuilds[0]?.iconURL || '/img/default-guild.png' %>" alt="First Place Guild">
+                            </div>
+                            <div class="podium-block">
+                                <div class="guild-name"><%= topGuilds[0]?.name || 'Loading...' %></div>
+                                <div class="guild-xp"><%= topGuilds[0]?.totalXP?.toLocaleString() || '0' %> XP</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Third Place -->
+                        <div class="podium-place third-place">
+                            <div class="medal-icon">
+                                <div class="place-badge">3</div>
+                            </div>
+                            <div class="guild-avatar">
+                                <img src="<%= topGuilds[2]?.iconURL || '/img/default-guild.png' %>" alt="Third Place Guild">
+                            </div>
+                            <div class="podium-block">
+                                <div class="guild-name"><%= topGuilds[2]?.name || 'Loading...' %></div>
+                                <div class="guild-xp"><%= topGuilds[2]?.totalXP?.toLocaleString() || '0' %> XP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="top-guilds-info">
+                    <p><%= t('home.totalXpInfo') %></p>
+                    <a href="/leaderboard" class="view-all-button"><%= t('home.viewFullLeaderboard') %></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/main.js"></script>
+    <script src="/js/animations.js"></script>
+</body>
+</html>

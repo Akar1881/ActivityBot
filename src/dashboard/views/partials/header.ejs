@@ -1,0 +1,217 @@
+<header class="main-header">
+    <div class="header-content">
+        <!-- Left side: Logo and Navigation -->
+        <div class="header-left">
+            <a href="/" class="logo">
+                <img src="/logo" alt="<%= siteName %>" class="site-logo">
+                <span class="site-name"><%= siteName %></span>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link <%= path === '/' ? 'active' : '' %>"><%= t('header.home') %></a></li>
+                    <li><a href="/leaderboard" class="nav-link <%= path === '/leaderboard' ? 'active' : '' %>"><%= t('header.leaderboard') %></a></li>
+                    <% if (locals.user) { %>
+                        <li><a href="/dashboard" class="nav-link <%= path === '/dashboard' ? 'active' : '' %>"><%= t('header.dashboard') %></a></li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Right side: Language selector, User info and logout (visible on desktop) -->
+        <div class="header-right desktop-only">
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <div class="language-dropdown" id="languageDropdown">
+                    <button class="language-button" id="languageButton" onclick="toggleLanguageDropdown(event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="globe-icon">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span class="current-language"><%= availableLanguages[lang] %></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="language-dropdown-content">
+                        <% Object.entries(availableLanguages).forEach(([code, name]) => { %>
+                            <a href="#" onclick="changeLanguage('<%= code %>'); return false;" class="<%= lang === code ? 'active' : '' %>">
+                                <%= name %>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+            
+            <% if (locals.user) { %>
+                <div class="user-info">
+                    <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="<%= user.username %>">
+                    <span><%= user.username %></span>
+                    <a href="/auth/logout" class="logout-button"><%= t('header.logout') %></a>
+                </div>
+            <% } else { %>
+                <div class="login-container">
+                    <a href="/auth/login" class="login-button"><%= t('header.login') %></a>
+                </div>
+            <% } %>
+        </div>
+        
+        <!-- No mobile header right section anymore -->
+        
+        <!-- Mobile menu toggle button (visible only on mobile) -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hamburger-icon">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Sidebar (hidden by default) -->
+<div class="mobile-sidebar" id="mobileSidebar">
+    <div class="sidebar-header">
+        <button class="close-sidebar" id="closeSidebar" aria-label="Close sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <div class="sidebar-content">
+        <!-- Language Selector -->
+        <div class="sidebar-section">
+            <div class="sidebar-language-selector">
+                <div class="language-dropdown sidebar-language-dropdown" id="sidebarLanguageDropdown">
+                    <button class="language-button sidebar-language-button" id="sidebarLanguageButton" onclick="toggleSidebarLanguageDropdown(event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="globe-icon">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span class="current-language"><%= availableLanguages[lang] %></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="language-dropdown-content sidebar-dropdown-content">
+                        <% Object.entries(availableLanguages).forEach(([code, name]) => { %>
+                            <a href="#" onclick="changeLanguage('<%= code %>'); return false;" class="<%= lang === code ? 'active' : '' %>">
+                                <%= name %>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Info or Login -->
+        <div class="sidebar-section">
+            <% if (locals.user) { %>
+                <div class="sidebar-user-info">
+                    <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="<%= user.username %>">
+                    <span><%= user.username %></span>
+                    <a href="/auth/logout" class="sidebar-logout-button"><%= t('header.logout') %></a>
+                </div>
+            <% } else { %>
+                <div class="sidebar-login-container">
+                    <a href="/auth/login" class="sidebar-login-button"><%= t('header.login') %></a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<!-- Overlay for when sidebar is open -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Script for language switching and mobile sidebar -->
+<script>
+    // Function to toggle the language dropdown (desktop)
+    function toggleLanguageDropdown(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById('languageDropdown');
+        dropdown.classList.toggle('active');
+        
+        // Close dropdown when clicking outside
+        if (dropdown.classList.contains('active')) {
+            document.addEventListener('click', closeDropdownOnClickOutside);
+        } else {
+            document.removeEventListener('click', closeDropdownOnClickOutside);
+        }
+    }
+    
+    // Function to toggle the language dropdown (sidebar)
+    function toggleSidebarLanguageDropdown(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById('sidebarLanguageDropdown');
+        dropdown.classList.toggle('active');
+        
+        // Close dropdown when clicking outside
+        if (dropdown.classList.contains('active')) {
+            document.addEventListener('click', closeSidebarDropdownOnClickOutside);
+        } else {
+            document.removeEventListener('click', closeSidebarDropdownOnClickOutside);
+        }
+    }
+    
+    // Function to close dropdown when clicking outside (desktop)
+    function closeDropdownOnClickOutside(event) {
+        const dropdown = document.getElementById('languageDropdown');
+        const button = document.getElementById('languageButton');
+        
+        // If click is outside the dropdown
+        if (!dropdown.contains(event.target) || event.target.tagName === 'A') {
+            dropdown.classList.remove('active');
+            document.removeEventListener('click', closeDropdownOnClickOutside);
+        }
+    }
+    
+    // Function to close dropdown when clicking outside (sidebar)
+    function closeSidebarDropdownOnClickOutside(event) {
+        const dropdown = document.getElementById('sidebarLanguageDropdown');
+        const button = document.getElementById('sidebarLanguageButton');
+        
+        // If click is outside the dropdown
+        if (!dropdown.contains(event.target) || event.target.tagName === 'A') {
+            dropdown.classList.remove('active');
+            document.removeEventListener('click', closeSidebarDropdownOnClickOutside);
+        }
+    }
+    
+    // Function to change language
+    function changeLanguage(lang) {
+        // Add the language parameter to the current URL
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+    }
+    
+    // Mobile sidebar functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        // Function to open sidebar
+        function openSidebar() {
+            mobileSidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when sidebar is open
+        }
+        
+        // Function to close sidebar
+        function closeSidebarMenu() {
+            mobileSidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+        
+        // Event listeners
+        mobileMenuToggle.addEventListener('click', openSidebar);
+        closeSidebar.addEventListener('click', closeSidebarMenu);
+        sidebarOverlay.addEventListener('click', closeSidebarMenu);
+    });
+</script>

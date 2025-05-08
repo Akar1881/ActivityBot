@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= t('leaderboard.title') %> - <%= siteName %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/leaderboard.css">
+</head>
+<body class="dark-theme">
+    <%- include('partials/header') %>
+    
+    <main class="leaderboard-container">
+        <div class="leaderboard-header">
+            <h1><%= t('leaderboard.guildLeaderboard') %></h1>
+            <% if (leaderboardType === 'invites') { %>
+                <p><%= t('leaderboard.topInviteGuilds') %> <%= siteName %></p>
+            <% } else { %>
+                <p><%= t('leaderboard.topGuilds') %> <%= siteName %></p>
+            <% } %>
+        </div>
+
+        <div class="leaderboard-filters">
+            <div class="filter-group">
+                <label for="leaderboard-type"><%= t('leaderboard.leaderboardType') %>:</label>
+                <select id="leaderboard-type" class="filter-select">
+                    <option value="xp" <%= leaderboardType === 'xp' || !leaderboardType ? 'selected' : '' %>><%= t('leaderboard.xpLeaderboard') %></option>
+                    <option value="invites" <%= leaderboardType === 'invites' ? 'selected' : '' %>><%= t('leaderboard.inviteLeaderboard') %></option>
+                </select>
+            </div>
+            <div class="filter-group <%= leaderboardType === 'invites' ? 'hidden' : '' %>" id="time-filter-container">
+                <label for="time-filter"><%= t('leaderboard.timePeriod') %>:</label>
+                <select id="time-filter" class="filter-select">
+                    <option value="all-time" <%= timeFilter === 'all-time' || !timeFilter ? 'selected' : '' %>><%= t('leaderboard.allTime') %></option>
+                    <option value="monthly" <%= timeFilter === 'monthly' ? 'selected' : '' %>><%= t('leaderboard.monthly') %></option>
+                    <option value="weekly" <%= timeFilter === 'weekly' ? 'selected' : '' %>><%= t('leaderboard.weekly') %></option>
+                    <option value="daily" <%= timeFilter === 'daily' ? 'selected' : '' %>><%= t('leaderboard.daily') %></option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" id="guild-search" placeholder="<%= t('leaderboard.searchGuilds') %>" class="search-input">
+                <button id="search-button" class="search-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="top-guilds-podium">
+            <div class="podium-wrapper">
+                <!-- Second Place -->
+                <div class="podium-place second-place">
+                    <div class="medal-icon">
+                            <div class="place-badge">2</div>
+                        </div>
+                    <div class="guild-avatar">
+                        <img src="<%= topGuilds[1]?.iconURL || '/img/default-guild.png' %>" alt="Second Place Guild">
+                    </div>
+                    <div class="podium-block">
+                        <div class="guild-name"><%= topGuilds[1]?.name || 'Loading...' %></div>
+                        <% if (leaderboardType === 'invites') { %>
+                            <div class="guild-xp"><%= topGuilds[1]?.totalInvites?.toLocaleString() || '0' %> <%= t('leaderboard.inviters') %></div>
+                        <% } else { %>
+                            <div class="guild-xp"><%= topGuilds[1]?.totalXP?.toLocaleString() || '0' %> <%= t('leaderboard.xp') %></div>
+                        <% } %>
+                    </div>
+                </div>
+                
+                <!-- First Place -->
+                <div class="podium-place first-place">
+                    <div class="medal-icon">
+                        <div class="place-badge">1</div>
+                    </div>
+                    <div class="crown">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path>
+                        </svg>
+                    </div>
+                    <div class="guild-avatar">
+                        <img src="<%= topGuilds[0]?.iconURL || '/img/default-guild.png' %>" alt="First Place Guild">
+                    </div>
+                    <div class="podium-block">
+                        <div class="guild-name"><%= topGuilds[0]?.name || 'Loading...' %></div>
+                        <% if (leaderboardType === 'invites') { %>
+                            <div class="guild-xp"><%= topGuilds[0]?.totalInvites?.toLocaleString() || '0' %> <%= t('leaderboard.inviters') %></div>
+                        <% } else { %>
+                            <div class="guild-xp"><%= topGuilds[0]?.totalXP?.toLocaleString() || '0' %> <%= t('leaderboard.xp') %></div>
+                        <% } %>
+                    </div>
+                </div>
+                
+                <!-- Third Place -->
+                <div class="podium-place third-place">
+                    <div class="medal-icon">
+                        <div class="place-badge">3</div>
+                    </div>
+                    <div class="guild-avatar">
+                        <img src="<%= topGuilds[2]?.iconURL || '/img/default-guild.png' %>" alt="Third Place Guild">
+                    </div>
+                    <div class="podium-block">
+                        <div class="guild-name"><%= topGuilds[2]?.name || 'Loading...' %></div>
+                        <% if (leaderboardType === 'invites') { %>
+                            <div class="guild-xp"><%= topGuilds[2]?.totalInvites?.toLocaleString() || '0' %> <%= t('leaderboard.inviters') %></div>
+                        <% } else { %>
+                            <div class="guild-xp"><%= topGuilds[2]?.totalXP?.toLocaleString() || '0' %> <%= t('leaderboard.xp') %></div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr id="table-header-row">
+                        <% if (leaderboardType === 'invites') { %>
+                            <th class="rank-column"><%= t('leaderboard.rank') %></th>
+                            <th class="guild-column"><%= t('leaderboard.guild') %></th>
+                            <th class="members-column"><%= t('leaderboard.members') %></th>
+                            <th class="invites-column"><%= t('leaderboard.totalInvites') %></th>
+                            <th class="activity-column"><%= t('leaderboard.inviters') %></th>
+                        <% } else { %>
+                            <th class="rank-column"><%= t('leaderboard.rank') %></th>
+                            <th class="guild-column"><%= t('leaderboard.guild') %></th>
+                            <th class="members-column"><%= t('leaderboard.members') %></th>
+                            <th class="xp-column"><%= t('leaderboard.totalXp') %></th>
+                            <th class="activity-column"><%= t('leaderboard.activity') %></th>
+                        <% } %>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <% for(let i = 0; i < Math.min(guilds.length, 100); i++) { %>
+                        <tr class="<%= i < 3 ? 'top-three rank-' + (i+1) : '' %>">
+                            <td class="rank-column">
+                                <div class="rank-badge"><%= i + 1 %></div>
+                            </td>
+                            <td class="guild-column">
+                                <div class="guild-info">
+                                    <img src="<%= guilds[i].iconURL || '/img/default-guild.png' %>" alt="<%= guilds[i].name %>" class="guild-icon">
+                                    <div class="guild-details">
+                                        <div class="guild-name"><%= guilds[i].name %></div>
+                                        <div class="guild-id">ID: <%= guilds[i].id %></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="members-column"><%= guilds[i].memberCount.toLocaleString() %></td>
+                            <% if (leaderboardType === 'invites') { %>
+                                <td class="invites-column"><%= guilds[i].totalInvites.toLocaleString() %> <%= t('leaderboard.inviters') %></td>
+                                <td class="activity-column">
+                                    <div class="activity-bar-container">
+                                        <div class="activity-bar" style="width: <%= Math.min(100, (guilds[i].totalInvites / guilds[0].totalInvites) * 100) %>%"></div>
+                                    </div>
+                                    <span><%= guilds[i].inviterCount %> <%= t('leaderboard.inviters').toLowerCase() %></span>
+                                </td>
+                            <% } else { %>
+                                <td class="xp-column"><%= guilds[i].totalXP.toLocaleString() %> <%= t('leaderboard.xp') %></td>
+                                <td class="activity-column">
+                                    <div class="activity-bar-container">
+                                        <div class="activity-bar" style="width: <%= Math.min(100, (guilds[i].totalXP / guilds[0].totalXP) * 100) %>%"></div>
+                                    </div>
+                                </td>
+                            <% } %>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-container">
+            <button id="prev-page" class="pagination-button" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <%= t('leaderboard.previous') %>
+            </button>
+            <div class="page-info">
+                <%= t('leaderboard.page') %> <span id="current-page">1</span> of <span id="total-pages">10</span>
+            </div>
+            <button id="next-page" class="pagination-button">
+                <%= t('leaderboard.next') %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/main.js"></script>
+    <script src="/js/leaderboard.js"></script>
+</body>
+</html>

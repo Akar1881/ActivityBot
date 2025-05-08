@@ -1,0 +1,635 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--background-color) 0%, var(--secondary-color) 100%);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+  opacity: 0.1;
+  animation: rotate 20s linear infinite;
+}
+
+.hero-content {
+  max-width: 800px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.main-logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: float 6s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.main-logo:hover {
+  transform: scale(1.05);
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, var(--primary-color), #7289DA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  margin-bottom: 2rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.discord-button {
+  background-color: #5865F2;
+  color: white;
+}
+
+.discord-button:hover {
+  background-color: #4752c4;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+}
+
+.dashboard-button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: 2px solid var(--primary-color);
+}
+
+.dashboard-button:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+}
+
+.discord-icon, .dashboard-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--accent-color);
+  font-size: 1.1rem;
+}
+
+.features {
+  padding: 4rem 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.feature-card {
+  background: var(--secondary-color);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--primary-color);
+  margin: 0 auto 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feature-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon svg {
+  transform: scale(1.1);
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.feature-description {
+  color: var(--accent-color);
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.invite-button {
+  background: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.invite-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+}
+
+.login-button {
+  background: transparent;
+  color: var(--text-color);
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  border: 2px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Top Guilds Section Styles */
+.top-guilds-section {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, var(--primary-color), #7289DA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-description {
+  font-size: 1.2rem;
+  color: var(--accent-color);
+  margin-bottom: 3rem;
+}
+
+.podium-container {
+  margin: 3rem auto;
+  max-width: 800px;
+  position: relative;
+}
+
+.podium-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+  height: 350px;
+  position: relative;
+}
+
+.podium-place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.podium-place:hover {
+  transform: translateY(-10px);
+}
+
+.guild-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  background-color: var(--secondary-color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.guild-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.medal-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border: 2px solid #23272a;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  transform: translate(30%, 30%);
+}
+
+.first-place .medal-icon {
+  background-color: gold;
+  color: #333;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+}
+
+.second-place .medal-icon {
+  background-color: silver;
+  color: #333;
+}
+
+.third-place .medal-icon {
+  background-color: #cd7f32; /* Bronze */
+  color: #333;
+}
+
+.place-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: #333;
+}
+
+.crown {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 36px;
+  height: 36px;
+  color: gold;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+  z-index: 4;
+}
+
+.podium-block {
+  margin-top: 15px;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  background-color: #23272a;
+  text-align: center;
+  width: 180px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.guild-name {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+}
+
+.guild-xp {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Podium heights */
+.first-place {
+  z-index: 3;
+}
+
+.first-place .guild-avatar {
+  width: 100px;
+  height: 100px;
+  border: 4px solid gold;
+}
+
+.first-place .podium-block {
+  height: 150px;
+  border: 2px solid gold;
+}
+
+.second-place {
+  z-index: 2;
+}
+
+.second-place .guild-avatar {
+  border: 4px solid silver;
+}
+
+.second-place .podium-block {
+  height: 120px;
+  border: 2px solid silver;
+}
+
+.third-place {
+  z-index: 1;
+}
+
+.third-place .guild-avatar {
+  border: 4px solid #cd7f32; /* Bronze color */
+}
+
+.third-place .podium-block {
+  height: 90px;
+  border: 2px solid #cd7f32;
+}
+
+.top-guilds-info {
+  margin-top: 2rem;
+  color: var(--accent-color);
+}
+
+.view-all-button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.view-all-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 3rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+  }
+  
+  .main-logo {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .podium-wrapper {
+    flex-direction: row; /* Keep as row */
+    justify-content: center;
+    align-items: flex-end;
+    height: auto;
+    gap: 0.5rem; /* Reduce gap for mobile */
+    padding: 0 0.5rem;
+  }
+  
+  .podium-place {
+    margin: 0 !important;
+  }
+  
+  /* Keep the original order */
+  .first-place {
+    order: 2; /* First place in the middle */
+  }
+  
+  .second-place {
+    order: 1; /* Second place on the left */
+  }
+  
+  .third-place {
+    order: 3; /* Third place on the right */
+  }
+  
+  /* Adjust sizes for mobile */
+  .first-place .guild-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .second-place .guild-avatar {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .third-place .guild-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .podium-block {
+    max-width: 100px; /* Smaller width for mobile */
+    padding: 0.5rem;
+    font-size: 0.8rem; /* Smaller font for mobile */
+  }
+  
+  /* Adjust heights for the podium blocks */
+  .first-place .podium-block {
+    height: 100px !important;
+  }
+  
+  .second-place .podium-block {
+    height: 80px !important;
+  }
+  
+  .third-place .podium-block {
+    height: 60px !important;
+  }
+  
+  /* Make guild names smaller on mobile */
+  .guild-name {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .guild-xp {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .main-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Additional styles for very small screens */
+@media (max-width: 380px) {
+  .podium-wrapper {
+    gap: 0.25rem;
+  }
+  
+  .first-place .guild-avatar {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .second-place .guild-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .third-place .guild-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .podium-block {
+    max-width: 80px;
+    padding: 0.3rem;
+  }
+  
+  .guild-name {
+    font-size: 0.8rem;
+  }
+  
+  .guild-xp {
+    font-size: 0.7rem;
+  }
+  
+  .medal-icon {
+    transform: scale(0.8);
+  }
+  
+  .crown {
+    transform: scale(0.8);
+    top: -15px;
+  }
+}
